@@ -1,0 +1,28 @@
+FROM ubuntu:24.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Full toolchain used locally and mirrored by the GitLab CI jobs. busybox-static
+# provides the applets used to build a throwaway rootfs for integration tests.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        build-essential \
+        gcc \
+        gdb \
+        clang \
+        libclang-rt-18-dev \
+        clang-tidy \
+        clang-format \
+        cppcheck \
+        cmake \
+        ninja-build \
+        git \
+        ca-certificates \
+        gcovr \
+        lcov \
+        python3 \
+        busybox-static \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /workspace
+
+CMD ["/bin/bash"]

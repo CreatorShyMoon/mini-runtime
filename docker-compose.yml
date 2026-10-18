@@ -1,0 +1,18 @@
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev
+    image: mini-runtime-dev
+    working_dir: /workspace
+    # The runtime needs to create namespaces and (best effort) cgroups.
+    privileged: true
+    volumes:
+      - .:/workspace
+      # Keep build artifacts inside the container: fast on macOS, keeps the
+      # host tree clean. Delete with `docker compose down -v`.
+      - build:/workspace/build
+    command: sleep infinity
+
+volumes:
+  build:

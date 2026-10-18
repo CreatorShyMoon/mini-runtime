@@ -1,0 +1,6 @@
+build/
+build-*/
+.git/
+rootfs/
+*.tar.gz
+coverage/
