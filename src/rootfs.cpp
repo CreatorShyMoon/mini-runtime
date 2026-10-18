@@ -25,6 +25,12 @@ void make_node(const char* path, mode_t mode, unsigned major, unsigned minor) {
     }
 }
 
+void make_symlink(const char* target, const char* path) {
+    if (::symlink(target, path) != 0 && errno != EEXIST) {
+        log(LogLevel::Warn, std::string("symlink ") + path + " failed");
+    }
+}
+
 // Fallback when devtmpfs is unavailable: a tmpfs /dev with the essential nodes.
 void create_device_nodes() {
     make_node("/dev/null", 0666, 1, 3);
@@ -34,11 +40,11 @@ void create_device_nodes() {
     make_node("/dev/urandom", 0666, 1, 9);
     make_node("/dev/tty", 0666, 5, 0);
 
-    ::symlink("/proc/self/fd", "/dev/fd");
-    ::symlink("/proc/self/fd/0", "/dev/stdin");
-    ::symlink("/proc/self/fd/1", "/dev/stdout");
-    ::symlink("/proc/self/fd/2", "/dev/stderr");
-    ::symlink("pts/ptmx", "/dev/ptmx");
+    make_symlink("/proc/self/fd", "/dev/fd");
+    make_symlink("/proc/self/fd/0", "/dev/stdin");
+    make_symlink("/proc/self/fd/1", "/dev/stdout");
+    make_symlink("/proc/self/fd/2", "/dev/stderr");
+    make_symlink("pts/ptmx", "/dev/ptmx");
 }
 
 void mount_virtual_filesystems() {
