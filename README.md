@@ -1,5 +1,7 @@
 # mini-ctr
 
+[![CI](https://github.com/CreatorShyMoon/mini-runtime/actions/workflows/ci.yml/badge.svg)](https://github.com/CreatorShyMoon/mini-runtime/actions/workflows/ci.yml)
+
 Крошечный контейнерный рантайм на C++20 — ядро Docker примерно в тысяче строк.
 Изоляция построена на Linux-**namespaces**, лимиты ресурсов — на **cgroups v2**,
 файловая система — через `pivot_root`, привилегии — через **capabilities**.
